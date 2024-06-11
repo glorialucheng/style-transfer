@@ -1,0 +1,4 @@
+/.git
+/.idea
+.env
+.qiniu_pythonsdk_hostscache.json
