@@ -1,1 +1,1 @@
-from evaluate import ffwd_to_img
+from .evaluate import ffwd_to_img

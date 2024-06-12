@@ -2,3 +2,5 @@
 /.idea
 .env
 .qiniu_pythonsdk_hostscache.json
+**/__pycache__
+*.pyc

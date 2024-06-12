@@ -1,8 +1,8 @@
-import src.transform as transform, src.vgg as vgg, pdb, os
+import fast_model.src.transform as transform, fast_model.src.vgg as vgg, pdb, os
 import numpy as np
 import scipy.misc
 import tensorflow as tf
-from src.utils import save_img, get_img, exists, list_files
+from fast_model.src.utils import save_img, get_img, exists, list_files
 from argparse import ArgumentParser
 from collections import defaultdict
 import time
