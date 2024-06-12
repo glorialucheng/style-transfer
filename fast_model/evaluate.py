@@ -202,5 +202,5 @@ def main():
 
 
 if __name__ == '__main__':
-    # python .\fast-model\evaluate.py --in-path .\temp\local.jpg --out-path .\temp\cloud.jpg --checkpoint .\fast-model\ckpt\scream.ckpt
+    # python .\fast_model\evaluate.py --in-path .\temp\local.jpg --out-path .\temp\cloud.jpg --checkpoint .\fast_model\ckpt\scream.ckpt
     main()
