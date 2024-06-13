@@ -1,26 +1,20 @@
-from dotenv import load_dotenv
-import os
-from rich import print
-from qiniu import Auth, put_file
+from api import transfer
+from fastapi import FastAPI
+import uvicorn
 
-load_dotenv()
-access_key = os.getenv('QINIU_ACCESS_KEY')
-secret_key = os.getenv('QINIU_SECRET_KEY')
-q = Auth(access_key, secret_key)
-bucket_name = os.getenv('QINIU_BUCKET_NAME')
+app = FastAPI()
 
-# from api import transfer
-cloud_filename = 'cloud.jpg'
-local_filename = r'./temp/cloud.jpg'
-# res = transfer('./temp', 'local.jpg', './temp', 'cloud.jpg', r'./fast_model/ckpt/scream.ckpt')
-# print(res)
-token = q.upload_token(bucket_name, cloud_filename, 3600)
-ret, info = put_file(token, cloud_filename, local_filename)
 
-print(ret)
-print(info)
+@app.get("/")
+def home():
+    return 'Hello World!'
 
-# {'hash': 'FvPmOHZjErcskLdaWC7A9wbzF_08', 'key': 'cloud.jpg'}
-# _ResponseInfo__response:<Response [200]>, exception:None, status_code:200,
-# text_body:{"hash":"FvPmOHZjErcskLdaWC7A9wbzF_08","key":"cloud.jpg"},
-# req_id:D2IAAADjdvp_LtgX, x_log:X-Log
+
+@app.get("/transfer")
+def style_transfer():
+    res = transfer('./temp', 'local.jpg', './temp', 'cloud.jpg', r'./fast_model/ckpt/scream.ckpt')
+    return res
+
+
+if __name__ == '__main__':
+    uvicorn.run(app='main:app', host='127.0.0.1', port=8000, reload=True)

@@ -14,13 +14,6 @@ bucket_name = os.getenv('QINIU_BUCKET_NAME')
 base_url = os.getenv('QINIU_BASE_URL')
 
 
-class Result(BaseModel):
-    status: str
-    url: str
-    data: str
-    duration: str = None
-
-
 # 压缩图片
 def compress_image(image_path):
     im = Image.open(image_path)
@@ -31,10 +24,7 @@ def compress_image(image_path):
 
 def upload2qiniu(cloud_filename, local_filename):
     token = q.upload_token(bucket_name, cloud_filename, 3600)
-    t1 = time()
-    # ret, info = put_file(token, cloud_filename, local_filename)
-    ret, info = put_file(token, cloud_filename, r'E:\project\style-transfer\temp\cloud.jpg')
-    t2 = time()
+    ret, info = put_file(token, cloud_filename, local_filename)
     if info.status_code == 200:
         return os.path.join(base_url, cloud_filename)
     else:
@@ -49,8 +39,8 @@ def transfer(image_path, image_name, result_image_path, result_image_name, ckpt_
     url = upload2qiniu(result_image_name, os.path.join(result_image_path, result_image_name))
     t3 = time()
     if url != '':
-        res = {'status': 200, 'url': url, 'transfer_duration': t2 - t1, 'upload_duration': t3 - t2}
+        res = {'status': 200, 'url': url, 'data': t1, 'duration': {'transfer': t2-t1, 'upload': t3-t2}}
     else:
-        res = {'status': 400, 'url': url, 'transfer_duration': t2 - t1, 'upload_duration': t3 - t2}
+        res = {'status': 400, 'url': url, 'data': t1, 'duration': {'transfer': t2-t1, 'upload': t3-t2}}
 
     return res
